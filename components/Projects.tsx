@@ -1,11 +1,13 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 
 // ─── Project data ─────────────────────────────────────────────────────────────
-// Keep all project info here. When you have real screenshots, swap the
-// `gradient` field for an `image` field and use Next.js <Image />.
-// When you have real URLs, replace the placeholder strings below.
+// To add a real screenshot:
+//   1. Take a screenshot of your live app (browser window, ~1280×720)
+//   2. Save it to public/projects/ with the filename shown in `image` below
+//   3. That's it — the card will automatically show the image instead of the gradient
 const projects = [
   {
     id: 1,
@@ -15,8 +17,7 @@ const projects = [
     tech: ["React", "Node.js", "Express", "PostgreSQL", "Prisma", "Socket.IO", "Tailwind CSS", "Cloudinary"],
     liveUrl: "https://backend-production-71c4.up.railway.app",
     githubUrl: "https://github.com/shaun-holden/restaurant-app",
-    // Gradient shown as the card image until you add a real screenshot.
-    // Colors chosen to match a warm restaurant feel.
+    image: "/projects/restaurant.png",     // ← drop screenshot here when ready
     gradient: "from-orange-400 via-rose-400 to-pink-500",
     icon: (
       <svg className="h-12 w-12 text-white/80" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -32,6 +33,7 @@ const projects = [
     tech: ["HTML", "CSS", "JavaScript", "localStorage"],
     liveUrl: "https://invoice-generator-production-9dd5.up.railway.app",
     githubUrl: "https://github.com/shaun-holden/invoice-generator",
+    image: "/projects/invoice.png",        // ← drop screenshot here when ready
     gradient: "from-indigo-400 via-blue-400 to-cyan-400",
     icon: (
       <svg className="h-12 w-12 text-white/80" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -47,6 +49,7 @@ const projects = [
     tech: ["React", "Node.js", "Express", "PostgreSQL", "Prisma", "JWT", "Nodemailer", "Tailwind CSS"],
     liveUrl: "https://booking-system-production-a93a.up.railway.app",
     githubUrl: "https://github.com/shaun-holden/booking-system",
+    image: "/projects/booking.png",        // ← drop screenshot here when ready
     gradient: "from-emerald-400 via-teal-400 to-green-500",
     icon: (
       <svg className="h-12 w-12 text-white/80" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -56,7 +59,6 @@ const projects = [
   },
 ];
 
-// ─── Animation variants ───────────────────────────────────────────────────────
 const fadeUp = {
   hidden:  { opacity: 0, y: 32 },
   visible: { opacity: 1, y: 0 },
@@ -67,7 +69,6 @@ export default function Projects() {
     <section id="projects" className="bg-white py-28 px-6">
       <div className="mx-auto max-w-6xl">
 
-        {/* ── Section header ─────────────────────────────────────────────── */}
         <motion.div
           className="mb-16 text-center"
           initial="hidden"
@@ -87,8 +88,6 @@ export default function Projects() {
           </p>
         </motion.div>
 
-        {/* ── Project cards grid ─────────────────────────────────────────── */}
-        {/* 1 column on mobile → 2 on md → 3 on lg                           */}
         <motion.div
           className="grid gap-8 md:grid-cols-2 lg:grid-cols-3"
           initial="hidden"
@@ -109,12 +108,15 @@ export default function Projects() {
   );
 }
 
-// ─── ProjectCard sub-component ───────────────────────────────────────────────
-// Splitting the card into its own component keeps the JSX readable above.
-// It receives one project object as a prop and renders the full card.
+// ─── ProjectCard ──────────────────────────────────────────────────────────────
 function ProjectCard({ project }: { project: typeof projects[0] }) {
   const hasLiveUrl   = project.liveUrl   !== "#";
   const hasGithubUrl = project.githubUrl !== "#";
+
+  // Check if a real screenshot file exists for this project.
+  // We do this by checking if the `image` path is set AND the file is present.
+  // Next.js <Image> needs `fill` + a positioned parent for aspect-ratio images.
+  const hasImage = Boolean(project.image);
 
   return (
     <motion.article
@@ -122,28 +124,33 @@ function ProjectCard({ project }: { project: typeof projects[0] }) {
         hidden:  { opacity: 0, y: 32 },
         visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
       }}
-      // whileHover lifts the card and deepens the shadow on mouse-over.
-      // This works alongside the parent stagger — they don't conflict.
       whileHover={{ y: -6 }}
       transition={{ type: "spring", stiffness: 300, damping: 20 }}
       className="group flex flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition-shadow duration-300 hover:shadow-xl"
     >
-      {/* ── Gradient image placeholder ────────────────────────────────── */}
-      {/* aspect-video = 16:9 ratio, same as a screenshot.                 */}
-      {/* When you add real screenshots, replace this div with:             */}
-      {/*   <Image src="/projects/restaurant.png" alt="..." fill />         */}
-      {/*   (and add position-relative + aspect-video to the wrapper)       */}
-      <div
-        className={`relative flex aspect-video items-center justify-center bg-gradient-to-br ${project.gradient}`}
-      >
-        {project.icon}
-        {/* Subtle overlay so the icon pops on any gradient */}
-        <div className="absolute inset-0 bg-black/5" />
+      {/* ── Image area ────────────────────────────────────────────────── */}
+      {/* aspect-video keeps 16:9 ratio whether it's a screenshot or gradient */}
+      <div className={`relative aspect-video overflow-hidden ${!hasImage ? `bg-gradient-to-br ${project.gradient} flex items-center justify-center` : ""}`}>
+        {hasImage ? (
+          // Next.js <Image> with fill — fills the aspect-video container.
+          // sizes tells the browser how wide the image will be at each breakpoint
+          // so it can download the right size (performance optimization).
+          <Image
+            src={project.image}
+            alt={`${project.title} screenshot`}
+            fill
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          />
+        ) : (
+          <>
+            {project.icon}
+            <div className="absolute inset-0 bg-black/5" />
+          </>
+        )}
       </div>
 
       {/* ── Card body ─────────────────────────────────────────────────── */}
-      {/* flex-1 pushes the footer links to the bottom regardless of        */}
-      {/* how much text each card has — all cards stay the same height.     */}
       <div className="flex flex-1 flex-col p-6">
 
         <h3 className="mb-2 text-xl font-bold text-gray-900">
@@ -154,7 +161,6 @@ function ProjectCard({ project }: { project: typeof projects[0] }) {
           {project.description}
         </p>
 
-        {/* Tech stack badges */}
         <div className="mb-6 flex flex-wrap gap-2">
           {project.tech.map((t) => (
             <span
@@ -166,10 +172,7 @@ function ProjectCard({ project }: { project: typeof projects[0] }) {
           ))}
         </div>
 
-        {/* ── Links ─────────────────────────────────────────────────── */}
         <div className="flex items-center gap-4 border-t border-gray-100 pt-5">
-
-          {/* Live demo link */}
           {hasLiveUrl ? (
             <a
               href={project.liveUrl}
@@ -177,7 +180,6 @@ function ProjectCard({ project }: { project: typeof projects[0] }) {
               rel="noopener noreferrer"
               className="flex items-center gap-1.5 text-sm font-semibold text-indigo-500 transition-colors hover:text-indigo-700"
             >
-              {/* External link icon */}
               <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
               </svg>
@@ -187,12 +189,8 @@ function ProjectCard({ project }: { project: typeof projects[0] }) {
             <span className="text-sm text-gray-300">Coming soon</span>
           )}
 
-          {/* Divider dot */}
-          {hasLiveUrl && hasGithubUrl && (
-            <span className="text-gray-200">·</span>
-          )}
+          {hasLiveUrl && hasGithubUrl && <span className="text-gray-200">·</span>}
 
-          {/* GitHub link */}
           {hasGithubUrl && (
             <a
               href={project.githubUrl}
@@ -200,14 +198,12 @@ function ProjectCard({ project }: { project: typeof projects[0] }) {
               rel="noopener noreferrer"
               className="flex items-center gap-1.5 text-sm font-semibold text-gray-500 transition-colors hover:text-gray-900"
             >
-              {/* GitHub mark icon */}
               <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z" />
               </svg>
               GitHub
             </a>
           )}
-
         </div>
       </div>
     </motion.article>

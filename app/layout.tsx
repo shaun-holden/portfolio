@@ -33,12 +33,14 @@ export const metadata: Metadata = {
       "I build custom web apps for small businesses — ordering systems, invoicing tools, and booking platforms.",
     type: "website",
     locale: "en_US",
+    images: [{ url: "/og-image.png", width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
     title: "DeShaun Holden — Full-Stack Web Developer",
     description:
       "I build custom web apps for small businesses — ordering systems, invoicing tools, and booking platforms.",
+    images: ["/og-image.png"],
   },
 };
 
