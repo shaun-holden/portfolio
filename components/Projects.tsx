@@ -63,7 +63,7 @@ const projects = [
     description:
       "Full-stack catering platform with online ordering, real-time customer-admin messaging, Stripe payments, invoice management, and a photo gallery with lightbox.",
     tech: ["Next.js", "React", "TypeScript", "PostgreSQL", "Prisma", "Stripe", "Socket.IO", "Cloudinary", "Tailwind CSS"],
-    liveUrl: "#",
+    liveUrl: "https://cookfectionary-app-production.up.railway.app",
     githubUrl: "https://github.com/shaun-holden/cookfectionary",
     image: "/projects/cookfectionary.png",
     gradient: "from-amber-400 via-orange-400 to-red-500",
@@ -79,7 +79,7 @@ const projects = [
     description:
       "Real-time GPS tracking platform for school buses with role-based dashboards for parents, drivers, and admins. Features live maps, attendance tracking, and parent notifications.",
     tech: ["React", "TypeScript", "Vite", "Express", "PostgreSQL", "Drizzle", "Leaflet", "Stripe", "Tailwind CSS"],
-    liveUrl: "#",
+    liveUrl: "https://successful-creation-production.up.railway.app",
     githubUrl: "https://github.com/shaun-holden/school-bus-tracker",
     image: "/projects/school-bus-tracker.png",
     gradient: "from-yellow-400 via-amber-400 to-orange-500",
@@ -128,7 +128,7 @@ const projects = [
     description:
       "Internal task management app for gyms with role-based workflows, end-of-day reporting templates, real-time notifications via Socket.IO, and automated email reminders.",
     tech: ["React", "Vite", "Node.js", "Express", "PostgreSQL", "Prisma", "Socket.IO", "JWT", "Tailwind CSS"],
-    liveUrl: "#",
+    liveUrl: "https://gym-task-manager-production.up.railway.app",
     githubUrl: "#",
     image: "/projects/gym-task-manager.png",
     gradient: "from-blue-400 via-indigo-400 to-violet-500",
@@ -144,7 +144,7 @@ const projects = [
     description:
       "Budget tracking application for gymnastics programs with season management, coach and meet scheduling, per diem and mileage tracking, and financial reporting dashboards.",
     tech: ["C#", ".NET", "Blazor", "SQLite", "Entity Framework", "ASP.NET Identity"],
-    liveUrl: "#",
+    liveUrl: "https://gymbudgetapp-production.up.railway.app",
     githubUrl: "https://github.com/shaun-holden/GymBudgetApp",
     image: "/projects/gym-budget.png",
     gradient: "from-green-400 via-emerald-400 to-teal-500",
