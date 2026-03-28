@@ -21,54 +21,6 @@ const projects = [
     icon: (<svg className="h-12 w-12 text-white/80" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z" /></svg>),
   },
   {
-    id: 1,
-    title: "Restaurant Ordering System",
-    description:
-      "Full-stack ordering platform where customers browse a menu, customize items, and place orders. Kitchen staff see new orders appear in real-time without refreshing.",
-    tech: ["React", "Node.js", "Express", "PostgreSQL", "Prisma", "Socket.IO", "Tailwind CSS", "Cloudinary"],
-    liveUrl: "https://backend-production-71c4.up.railway.app",
-    githubUrl: "https://github.com/shaun-holden/restaurant-app",
-    image: "/projects/restaurant.png",     // ← drop screenshot here when ready
-    gradient: "from-orange-400 via-rose-400 to-pink-500",
-    icon: (
-      <svg className="h-12 w-12 text-white/80" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12 8.25v-1.5m0 1.5c-1.355 0-2.697.056-4.024.166C6.845 8.51 6 9.473 6 10.608v2.513m6-4.871c1.355 0 2.697.056 4.024.166C17.155 8.51 18 9.473 18 10.608v2.513M15 19.5l-3-3m0 0-3 3m3-3v7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z" />
-      </svg>
-    ),
-  },
-  {
-    id: 2,
-    title: "Invoice Generator",
-    description:
-      "Professional invoicing tool that lets freelancers create, customize, and export invoices to PDF. Supports multiple tax lines, currency selection, and auto-incrementing invoice numbers.",
-    tech: ["HTML", "CSS", "JavaScript", "localStorage"],
-    liveUrl: "https://invoice-generator-production-9dd5.up.railway.app",
-    githubUrl: "https://github.com/shaun-holden/invoice-generator",
-    image: "/projects/invoice.png",        // ← drop screenshot here when ready
-    gradient: "from-indigo-400 via-blue-400 to-cyan-400",
-    icon: (
-      <svg className="h-12 w-12 text-white/80" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
-      </svg>
-    ),
-  },
-  {
-    id: 3,
-    title: "Booking System",
-    description:
-      "Appointment scheduling platform where service providers set their availability and customers book time slots online. Includes role-based dashboards and email notifications.",
-    tech: ["React", "Node.js", "Express", "PostgreSQL", "Prisma", "JWT", "Nodemailer", "Tailwind CSS"],
-    liveUrl: "https://booking-system-production-a93a.up.railway.app",
-    githubUrl: "https://github.com/shaun-holden/booking-system",
-    image: "/projects/booking.png",        // ← drop screenshot here when ready
-    gradient: "from-emerald-400 via-teal-400 to-green-500",
-    icon: (
-      <svg className="h-12 w-12 text-white/80" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
-      </svg>
-    ),
-  },
-  {
     id: 4,
     title: "Cookfectionary",
     description:
