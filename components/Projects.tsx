@@ -101,24 +101,7 @@ const projects = [
       </svg>
     ),
   },
-  {
-    id: 10,
-    title: "Fusion Athletic Center",
-    description:
-      "Modern website for a gymnastics facility featuring animated hero sections, interactive program selector, class schedules with live day indicator, and Google Maps integration.",
-    tech: ["Next.js", "React", "TypeScript", "Framer Motion", "Tailwind CSS"],
-    liveUrl: "https://protective-reflection-production-9753.up.railway.app",
-    githubUrl: "#",
-    image: "/projects/fusion-gymnastics.png",
-    gradient: "from-violet-400 via-purple-400 to-indigo-500",
-    icon: (
-      <svg className="h-12 w-12 text-white/80" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" />
-      </svg>
-    ),
-  },
 ];
-
 const fadeUp = {
   hidden:  { opacity: 0, y: 32 },
   visible: { opacity: 1, y: 0 },
