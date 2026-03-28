@@ -63,7 +63,7 @@ export default function Hero() {
           transition={{ duration: 0.5, ease: "easeOut" }}
           className="mb-10 text-xl leading-relaxed text-gray-500 sm:text-2xl"
         >
-          I build custom web apps for small businesses.
+          I build custom web apps for small businesses. Available for freelance projects and open to full-time roles.
         </motion.p>
 
         {/* CTA button — scrolls to the Projects section */}
