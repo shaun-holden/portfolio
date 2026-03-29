@@ -1,18 +1,15 @@
-"use client";
+import { useRef } from "react";
 
-import { motion } from "framer-motion";
-
-// ─── Service data ─────────────────────────────────────────────────────────────
-// `featured: true` on one card gives it the filled indigo treatment.
-// This draws the eye and signals "this is the most popular / best value" option.
 const services = [
   {
     title: "Business Website",
-    price: "$500 – $1,500",
-    unit: "one-time",
+    price: "$750",
+    priceSuffix: "– $2,500",
+    billingNote: "one-time",
+    tagline: "Your brand online — fast, clean, and built to convert.",
     description:
-      "A clean, fast, mobile-friendly website to establish your online presence and win more customers.",
-    includes: [
+      "A custom-designed, mobile-first website that establishes your presence and turns visitors into customers. No templates, no shortcuts.",
+    features: [
       "Custom design (no templates)",
       "Up to 5 pages",
       "Contact form",
@@ -20,20 +17,18 @@ const services = [
       "SEO basics",
       "1 month of support",
     ],
-    icon: (
-      <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253M3 12c0 .778.099 1.533.284 2.253" />
-      </svg>
-    ),
     featured: false,
+    cta: "Get Started",
   },
   {
     title: "Web Application",
-    price: "$1,500 – $5,000",
-    unit: "one-time",
+    price: "$5,000",
+    priceSuffix: "– $15,000",
+    billingNote: "one-time",
+    tagline: "A fully custom app built around your business logic.",
     description:
-      "A fully custom web app built around your specific workflow — with user accounts, dashboards, and real business logic.",
-    includes: [
+      "User accounts, dashboards, role-based access, and real business workflows — engineered from scratch for your specific needs.",
+    features: [
       "Full-stack development",
       "User authentication & roles",
       "Custom database design",
@@ -41,21 +36,19 @@ const services = [
       "API integrations",
       "3 months of support",
     ],
-    icon: (
-      <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z" />
-      </svg>
-    ),
-    // This is the featured card — it gets the filled indigo background
     featured: true,
+    cta: "Get Started",
+    badge: "Most Popular",
   },
   {
     title: "Online Ordering System",
-    price: "$2,000 – $4,000",
-    unit: "one-time",
+    price: "$4,500",
+    priceSuffix: "– $10,000",
+    billingNote: "one-time",
+    tagline: "Take orders online — menus, payments, and real-time tracking.",
     description:
-      "A complete ordering platform with a menu, cart, payments, and a real-time dashboard for your team.",
-    includes: [
+      "A complete ordering platform with menu management, cart, Stripe payments, and a live order dashboard for your team.",
+    features: [
       "Menu management",
       "Cart & checkout",
       "Stripe payments",
@@ -63,20 +56,18 @@ const services = [
       "Order status updates",
       "3 months of support",
     ],
-    icon: (
-      <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
-      </svg>
-    ),
     featured: false,
+    cta: "Get Started",
   },
   {
     title: "Ongoing Maintenance",
-    price: "$200 – $500",
-    unit: "per month",
+    price: "$200",
+    priceSuffix: "– $500",
+    billingNote: "per month",
+    tagline: "Your app stays healthy. You stay focused.",
     description:
-      "I keep your app healthy — updates, bug fixes, new features, and a developer you can reach when something breaks.",
-    includes: [
+      "Bug fixes, dependency updates, small feature additions, and a developer you can actually reach when something breaks.",
+    features: [
       "Bug fixes & patches",
       "Dependency updates",
       "Small feature additions",
@@ -84,168 +75,329 @@ const services = [
       "Priority response time",
       "Monthly check-in call",
     ],
-    icon: (
-      <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437l1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008z" />
-      </svg>
-    ),
     featured: false,
+    cta: "Get Started",
   },
 ];
 
-const fadeUp = {
-  hidden:  { opacity: 0, y: 32 },
-  visible: { opacity: 1, y: 0 },
-};
-
 export default function Services() {
   return (
-    <section id="services" className="bg-white py-28 px-6">
-      <div className="mx-auto max-w-6xl">
-
-        {/* ── Section header ─────────────────────────────────────────────── */}
-        <motion.div
-          className="mb-16 text-center"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={fadeUp}
-          transition={{ duration: 0.5, ease: "easeOut" }}
-        >
-          <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-indigo-500">
-            Services
-          </p>
-          <h2 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
-            What I Build
-          </h2>
-          <p className="mt-4 text-lg text-gray-500">
-            Transparent pricing. No surprises.
-          </p>
-        </motion.div>
-
-        {/* ── Cards grid ─────────────────────────────────────────────────── */}
-        {/* 1 col → 2 col on md → 4 col on xl                                */}
-        <motion.div
-          className="grid gap-6 md:grid-cols-2 xl:grid-cols-4"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={{
-            hidden:  {},
-            visible: { transition: { staggerChildren: 0.1 } },
+    <section
+      id="services"
+      style={{
+        padding: "96px 24px",
+        background: "var(--background, #0a0a0f)",
+        fontFamily: "'Inter', sans-serif",
+      }}
+    >
+      {/* Section Header */}
+      <div style={{ textAlign: "center", marginBottom: "64px" }}>
+        <p
+          style={{
+            color: "#6366f1",
+            fontSize: "13px",
+            fontWeight: 600,
+            letterSpacing: "0.15em",
+            textTransform: "uppercase",
+            marginBottom: "12px",
           }}
         >
-          {services.map((service) => (
-            <ServiceCard key={service.title} service={service} />
-          ))}
-        </motion.div>
-
-        {/* ── Footer note ────────────────────────────────────────────────── */}
-        <motion.p
-          className="mt-12 text-center text-sm text-gray-400"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={fadeUp}
-          transition={{ duration: 0.5, ease: "easeOut", delay: 0.3 }}
+          Services & Pricing
+        </p>
+        <h2
+          style={{
+            fontSize: "clamp(32px, 5vw, 48px)",
+            fontWeight: 700,
+            color: "#fff",
+            margin: "0 auto 16px",
+            maxWidth: "640px",
+            lineHeight: 1.15,
+          }}
         >
-          Prices vary based on complexity and timeline.{" "}
-          <a href="#contact" className="text-indigo-500 hover:underline">
-            Let&apos;s talk about your project
-          </a>{" "}
-          for an accurate quote.
-        </motion.p>
-
+          Transparent pricing. Real results.
+        </h2>
+        <p
+          style={{
+            color: "#9ca3af",
+            fontSize: "17px",
+            maxWidth: "480px",
+            margin: "0 auto",
+            lineHeight: 1.65,
+          }}
+        >
+          Every project is scoped to your goals. These ranges reflect the value
+          delivered — not just hours worked.
+        </p>
       </div>
+
+      {/* Cards Grid */}
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+          gap: "24px",
+          maxWidth: "1200px",
+          margin: "0 auto",
+          alignItems: "start",
+        }}
+      >
+        {services.map((service) => (
+          <ServiceCard key={service.title} service={service} />
+        ))}
+      </div>
+
+      {/* Footer note */}
+      <p
+        style={{
+          textAlign: "center",
+          color: "#6b7280",
+          fontSize: "14px",
+          marginTop: "48px",
+        }}
+      >
+        Prices vary based on complexity and timeline.{" "}
+        <a
+          href="#contact"
+          style={{
+            color: "#6366f1",
+            textDecoration: "underline",
+            textUnderlineOffset: "3px",
+          }}
+        >
+          Let's talk about your project
+        </a>{" "}
+        for an accurate quote.
+      </p>
     </section>
   );
 }
 
-// ─── ServiceCard sub-component ───────────────────────────────────────────────
-function ServiceCard({ service }: { service: typeof services[0] }) {
-  // The featured card gets an inverted color scheme:
-  //   - dark indigo background instead of white
-  //   - white text instead of gray
-  //   - white CTA button instead of indigo
-  const f = service.featured;
+function ServiceCard({ service }: { service: (typeof services)[0] }) {
+  const {
+    title,
+    price,
+    priceSuffix,
+    billingNote,
+    tagline,
+    description,
+    features,
+    featured,
+    cta,
+    badge,
+  } = service;
 
   return (
-    <motion.div
-      variants={fadeUp}
-      transition={{ duration: 0.5, ease: "easeOut" }}
-      // scale up slightly on hover — more subtle than the project cards
-      whileHover={{ y: -4 }}
-      className={`relative flex flex-col rounded-2xl p-8 shadow-sm transition-shadow duration-300 hover:shadow-xl ${
-        f
-          ? "bg-indigo-600 text-white"
-          : "border border-gray-100 bg-white text-gray-900"
-      }`}
+    <div
+      style={{
+        background: featured
+          ? "linear-gradient(145deg, #4f46e5, #6366f1)"
+          : "#111118",
+        border: featured ? "none" : "1px solid #1f1f2e",
+        borderRadius: "20px",
+        padding: "36px 28px",
+        display: "flex",
+        flexDirection: "column",
+        gap: "20px",
+        position: "relative",
+        boxShadow: featured
+          ? "0 20px 60px rgba(99,102,241,0.35)"
+          : "0 4px 24px rgba(0,0,0,0.3)",
+        transform: featured ? "translateY(-8px)" : "none",
+        transition: "transform 0.2s ease, box-shadow 0.2s ease",
+      }}
+      onMouseEnter={(e) => {
+        if (!featured) {
+          (e.currentTarget as HTMLDivElement).style.transform = "translateY(-4px)";
+          (e.currentTarget as HTMLDivElement).style.borderColor = "#6366f1";
+        }
+      }}
+      onMouseLeave={(e) => {
+        if (!featured) {
+          (e.currentTarget as HTMLDivElement).style.transform = "none";
+          (e.currentTarget as HTMLDivElement).style.borderColor = "#1f1f2e";
+        }
+      }}
     >
-      {/* "Most Popular" badge — only shown on the featured card */}
-      {f && (
-        <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-white px-4 py-1 text-xs font-bold text-indigo-600 shadow-md">
-          Most Popular
+      {/* Badge */}
+      {badge && (
+        <span
+          style={{
+            position: "absolute",
+            top: "-14px",
+            left: "50%",
+            transform: "translateX(-50%)",
+            background: "#fff",
+            color: "#4f46e5",
+            fontSize: "11px",
+            fontWeight: 700,
+            letterSpacing: "0.1em",
+            textTransform: "uppercase",
+            padding: "5px 14px",
+            borderRadius: "999px",
+            whiteSpace: "nowrap",
+          }}
+        >
+          {badge}
         </span>
       )}
 
-      {/* Icon */}
-      <span
-        className={`mb-6 flex h-12 w-12 items-center justify-center rounded-xl ${
-          f ? "bg-white/20" : "bg-indigo-50 text-indigo-600"
-        }`}
-      >
-        {service.icon}
-      </span>
+      {/* Title & Tagline */}
+      <div>
+        <h3
+          style={{
+            fontSize: "18px",
+            fontWeight: 700,
+            color: featured ? "#fff" : "#e5e7eb",
+            margin: "0 0 6px",
+          }}
+        >
+          {title}
+        </h3>
+        <p
+          style={{
+            fontSize: "13px",
+            color: featured ? "rgba(255,255,255,0.75)" : "#9ca3af",
+            margin: 0,
+            lineHeight: 1.5,
+          }}
+        >
+          {tagline}
+        </p>
+      </div>
 
-      {/* Title & price */}
-      <h3 className={`mb-1 text-xl font-bold ${f ? "text-white" : "text-gray-900"}`}>
-        {service.title}
-      </h3>
-
-      <div className="mb-4">
-        <span className={`text-3xl font-extrabold ${f ? "text-white" : "text-gray-900"}`}>
-          {service.price}
-        </span>
-        <span className={`ml-1 text-sm ${f ? "text-indigo-200" : "text-gray-400"}`}>
-          {service.unit}
+      {/* Price */}
+      <div>
+        <div style={{ display: "flex", alignItems: "baseline", gap: "6px" }}>
+          <span
+            style={{
+              fontSize: "36px",
+              fontWeight: 800,
+              color: featured ? "#fff" : "#e5e7eb",
+              letterSpacing: "-0.02em",
+            }}
+          >
+            {price}
+          </span>
+          <span
+            style={{
+              fontSize: "22px",
+              fontWeight: 700,
+              color: featured ? "rgba(255,255,255,0.8)" : "#9ca3af",
+            }}
+          >
+            {priceSuffix}
+          </span>
+        </div>
+        <span
+          style={{
+            fontSize: "12px",
+            color: featured ? "rgba(255,255,255,0.6)" : "#6b7280",
+            fontWeight: 500,
+          }}
+        >
+          {billingNote}
         </span>
       </div>
 
-      <p className={`mb-6 text-sm leading-relaxed ${f ? "text-indigo-100" : "text-gray-500"}`}>
-        {service.description}
+      {/* Divider */}
+      <div
+        style={{
+          height: "1px",
+          background: featured ? "rgba(255,255,255,0.15)" : "#1f1f2e",
+        }}
+      />
+
+      {/* Description */}
+      <p
+        style={{
+          fontSize: "14px",
+          color: featured ? "rgba(255,255,255,0.82)" : "#9ca3af",
+          lineHeight: 1.65,
+          margin: 0,
+        }}
+      >
+        {description}
       </p>
 
-      {/* What's included list — flex-1 pushes the CTA button to the bottom */}
-      <ul className="mb-8 flex-1 space-y-3">
-        {service.includes.map((item) => (
-          <li key={item} className="flex items-start gap-2.5">
-            <svg
-              className={`mt-0.5 h-4 w-4 shrink-0 ${f ? "text-indigo-200" : "text-indigo-500"}`}
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2.5}
+      {/* Features */}
+      <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "10px" }}>
+        {features.map((f) => (
+          <li
+            key={f}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "10px",
+              fontSize: "14px",
+              color: featured ? "rgba(255,255,255,0.9)" : "#d1d5db",
+            }}
+          >
+            <span
+              style={{
+                width: "18px",
+                height: "18px",
+                borderRadius: "50%",
+                background: featured ? "rgba(255,255,255,0.2)" : "rgba(99,102,241,0.15)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexShrink: 0,
+              }}
             >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-            </svg>
-            <span className={`text-sm ${f ? "text-indigo-100" : "text-gray-600"}`}>
-              {item}
+              <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
+                <path
+                  d="M1 4l2.5 2.5L9 1"
+                  stroke={featured ? "#fff" : "#6366f1"}
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
             </span>
+            {f}
           </li>
         ))}
       </ul>
 
-      {/* CTA — scrolls to the Contact section */}
+      {/* CTA Button */}
       <a
         href="#contact"
-        className={`block rounded-xl py-3 text-center text-sm font-semibold transition-all duration-200 ${
-          f
-            ? "bg-white text-indigo-600 hover:bg-indigo-50"
-            : "bg-indigo-50 text-indigo-600 hover:bg-indigo-100"
-        }`}
+        style={{
+          marginTop: "auto",
+          display: "block",
+          textAlign: "center",
+          padding: "14px",
+          borderRadius: "10px",
+          fontWeight: 600,
+          fontSize: "15px",
+          textDecoration: "none",
+          background: featured ? "#fff" : "transparent",
+          color: featured ? "#4f46e5" : "#6366f1",
+          border: featured ? "none" : "1px solid #6366f1",
+          transition: "all 0.2s ease",
+          cursor: "pointer",
+        }}
+        onMouseEnter={(e) => {
+          const el = e.currentTarget as HTMLAnchorElement;
+          if (featured) {
+            el.style.background = "#f0f0ff";
+          } else {
+            el.style.background = "#6366f1";
+            el.style.color = "#fff";
+          }
+        }}
+        onMouseLeave={(e) => {
+          const el = e.currentTarget as HTMLAnchorElement;
+          if (featured) {
+            el.style.background = "#fff";
+          } else {
+            el.style.background = "transparent";
+            el.style.color = "#6366f1";
+          }
+        }}
       >
-        Get Started
+        {cta}
       </a>
-    </motion.div>
+    </div>
   );
 }
